@@ -17,6 +17,7 @@ var BBList = React.createClass({
                 <input type="text"
                     onChange={this.handleOnChange.bind(this, i)}
                     key={i}
+                    placeholder={"tulis list ke-" + (i+1) + " disini"}
                     ref={"input" + i} />
             );
             nodes.push(<br />);
@@ -29,6 +30,7 @@ var BBList = React.createClass({
                 </div>
                 <h3>Output</h3>
                 <textarea className="output"
+                    placeholder="output akan keluar di sini"
                     value={this.state.output} />
             </div>
         );
