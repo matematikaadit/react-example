@@ -28,7 +28,7 @@ var Calculator = React.createClass({displayName: 'Calculator',
     var msg = this.state.ans;
     if (isNaN(msg)) { msg = "" }
     return (
-      React.DOM.div( {className:"calculator"},
+      React.DOM.div( {className:"calculator"}, 
         boxNode,
         Answer( {ans:msg} )
       )
