@@ -29,7 +29,7 @@ var BBList = React.createClass({
                 </div>
                 <h3>Output</h3>
                 <textarea className="output"
-                    placeholder="output akan keluar di sini"
+                    placeholder="the output will be displayed here"
                     value={this.state.output} />
             </div>
         );
@@ -54,13 +54,15 @@ var BBList = React.createClass({
     convertToBBList: function(list) {
         /* A Converter from js Array to a BBList code
          */
-         output = "[LIST]\n"
+         output = ""
          for (var i = 0; i < list.length; i++) {
-             var item = "";
-             if (list[i]) { item = list[i] }
-             output += "[*]" + item + "\n"
+             if (list[i]) {
+                 output += "[*]" + list[i] + "\n"
+             }
          }
-         output += "[/LIST]\n"
+         if (output) {
+             output = "[LIST]\n" + output + "[/LIST]\n"
+         }
          return output;
     },
 
