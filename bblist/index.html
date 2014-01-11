@@ -4,22 +4,27 @@
 <meta charset=utf-8 />
 <script src="../build/react.min.js"></script>
 <title>BBList</title>
+<link rel="stylesheet" href="../main.css">
 <style>
-    .bblist {
-        width: 600px;
-    }
-    .input input {
-        width: 100%;
-    }
-    textarea {
-        width: 100%;
-        height: 400px;
-    }
+.bblist {
+    width: 600px;
+}
+textarea, input {
+    width: 400px;
+}
+textarea {
+    height: 200px;
+    font-family: monospace;
+    font-size: 12px;
+}
+
 </style>
 </head>
 <body>
+<div class="main">
 <h1>Simple BBList Generator</h1>
 <div id="content"><p>React JS not working</p></div>
+</div>
 <script src="build/bblist.js"></script>
 </body>
 </html>

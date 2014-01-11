@@ -17,7 +17,6 @@ var BBList = React.createClass({displayName: 'BBList',
                 React.DOM.input( {type:"text",
                     onChange:this.handleOnChange.bind(this, i),
                     key:i,
-                    placeholder:"tulis list ke-" + (i+1) + " disini",
                     ref:"input" + i} )
             );
             nodes.push(React.DOM.br(null ));

@@ -1,0 +1,41 @@
+body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+}
+
+h1, h2, h3 {
+    font-size: 24px;
+    font-weight: normal;
+    margin-bottom: 5px;
+}
+
+ul {
+    list-style-type: square;
+    margin: 0 0 10px 0;
+    padding: 0;
+}
+
+li {
+    line-height: 20px;
+    margin-left: 20px;
+}
+
+input, textarea {
+    border: 1px solid #ccc;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+input {
+    width: 150px;
+    padding: 3px;
+}
+
+textarea {
+    margin-bottom: 10px;
+    padding: 5px;
+}
+    
+.main {
+    max-width: 600px;
+    margin: 0 auto;
+}
