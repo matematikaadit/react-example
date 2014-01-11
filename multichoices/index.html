@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<script src="../build/react.min.js"></script>
+<title>Multiple BBCat</title>
+<link rel="stylesheet" href="../main.css">
+<style>
+.main {
+    max-width: 100%;
+    margin: 0 0;
+    padding: 20px;
+}
+
+textarea, input {
+    width: 400px;
+}
+
+textarea {
+    height: 200px;
+    font-family: monospace;
+    font-size: 12px;
+}
+
+.bbcat input {
+    width: 384px;
+}
+
+.multiin {
+    width: 50%;
+    float: left;
+}
+
+.multiout {
+    width: 50%;
+    float: right;
+}
+
+.multiout textarea {
+    height: 2900px;
+}
+
+</style>
+</head>
+<body>
+<div class="main">
+<h1>Multiple BBCat</h1>
+<div id="content"><p>React JS not working</p></div>
+</div>
+<script src="build/bblist.js"></script>
+<script src="build/textarea.js"></script>
+<script src="build/bbcat.js"></script>
+<script src="build/multiple.js"></script>
+<script>
+React.renderComponent(
+    MultipleBBCat({cats: [
+    {code: "A1", title: "Best Storyline & Plot"},
+    {code: "A2", title: "Best Visuals & Animation"},
+    {code: "B1", title: "Best Action-Adventure"},
+    {code: "B2", title: "Best Fantasy"},
+    {code: "B3", title: "Best Science Fiction"},
+    {code: "B4", title: "Best Mystery"},
+    {code: "B5", title: "Best Drama"},
+    {code: "B6", title: "Best Romance"},
+    {code: "B7", title: "Best Comedy"},
+    {code: "B8", title: "Best Slice of Life"},
+    {code: "C1", title: "Best TV Series"},
+    {code: "C2", title: "Best OVA"},
+    {code: "C3", title: "Best Movie"},
+    {code: "D1", title: "Best Female Lead"},
+    {code: "D2", title: "Best Male Lead"},
+    {code: "D3", title: "Best Antagonist"},
+    {code: "D4", title: "Best Side-Character"},
+    {code: "D5", title: "Best World Setting"},
+    {code: "D6", title: "Best Credits Theme"},
+    {code: "D7", title: "Best Soundtrack"},
+    {code: "D8", title: "Best Ongoing Series"},
+]}),
+    document.getElementById('content')
+);
+</script>
+
+</body>
+</html>
