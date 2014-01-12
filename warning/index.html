@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<script src="../build/react.min.js"></script>
+<title>Warning on Triple</title>
+<link rel="stylesheet" href="../main.css">
+<style>
+.warn {
+    border: 1px solid #d00;
+}
+</style>
+</head>
+<body>
+<div class="main">
+<h1>Warning on Triple</h1>
+<div id="content"><p>React JS not working</p></div>
+</div>
+<script src="build/bblist.js"></script>
+<script>
+React.renderComponent(
+    BBList(null),
+    document.getElementById('content')
+);
+</script>
+</body>
+</html>
