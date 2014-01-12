@@ -5,6 +5,8 @@
 var BBList = React.createClass({displayName: 'BBList',
     /* BBList gives a list of input and process it to be a BBList output
      */
+
+    /* Maximum number of input */
     MAX: 20,
 
     render: function() {
@@ -18,8 +20,8 @@ var BBList = React.createClass({displayName: 'BBList',
                     React.DOM.input( {type:"text",
                         onChange:this.handleChange.bind(this, i),
                         key:i,
-                        ref:"input" + i, 
-                        className:this.state.warnState[i] ? "warn" : ""} )
+                        ref:"input" + i,
+                        className:this.state.redish[i] ? "warn" : ""} )
                 )
             );
         }
@@ -36,87 +38,53 @@ var BBList = React.createClass({displayName: 'BBList',
         /* Initial state of the app. Output is empty. list is also empty.
         */
         var list = [];
-        var warnState = [];
+        var redish = [];
         for (var i = 0; i < this.MAX; i++) {
             list[i] = '';
-            warnState[i] = false;
+            redish[i] = false;
         }
-        return {output: '', list: list, tally: {}, warnState: warnState};
+        return {list: list, redish: redish};
     },
 
     handleChange: function(i) {
-        /* Handle input changing, then update the output state
+        var list = this.getUpdatedList(i);
+        var tally = this.getTally(list);
+        var redish = this.getUpdatedRedish(tally);
+        this.setState({list: list, redish: redish});
+    },
+
+    getUpdatedList: function(i) {
+        /* get old list and new value
         */
+        var list = this.state.list;
         var value = this.refs["input"+i].getDOMNode().value.trim();
-        var list = this.state.list;
-        var old = list[i];
+
+        /* update list */
         list[i] = value;
-        output = this.convertToBBList(list);
-        this.setState({output: output, list: list});
-
-        this.setUnset(i, old);
-        // this.props.onBBListChange(output);
+        return list;
     },
 
-    convertToBBList: function(list) {
-        /* A Converter from js Array to a BBList code
-         */
-         output = ""
-         for (var i = 0; i < list.length; i++) {
-             if (list[i]) {
-                 output += "[*]" + list[i] + "\n"
-             }
-         }
-         if (output) {
-             output = "[LIST]\n" + output + "[/LIST]\n"
-         }
-         return output;
-    },
-
-    setUnset: function(i, old) {
-        // TODO: there are some bugs lurking here.
-        var list = this.state.list;
-        var tally = this.state.tally;
-        var warnState = this.state.warnState;
-        var value = list[i];
-        if (old) {
-            tally[old]--;
-            if (tally[old] == 2) {
-                this.changeWarn(old, false);
+    getUpdatedRedish: function(tally) {
+        var redish = this.state.redish;
+        for (var key in tally) {
+            var nextred = (tally[key].count > 2)  && (key !== '')
+            for (var i = 0; i < tally[key].idx.length; i++) {
+                redish[tally[key].idx[i]] = nextred;
             }
         }
-        if (value) {
-            if (tally[value]) {
-                tally[value]++;
-            } else {
-                tally[value] = 1;
-            }
-            if (tally[value] >= 3) {
-                this.changeWarn(value, true)
-            } else if (warnState[i]) {
-                this.clearWarn(i);
-            }
-        } else {
-            this.clearWarn(i);
-        }
-        this.setState({tally: tally});
+        return redish;
     },
 
-    changeWarn: function(value, ok) {
-        var list = this.state.list;
-        var warnState = this.state.warnState;
+    getTally: function(list) {
+        var tally = {};
+
         for (var i = 0; i < list.length; i++) {
-            if (list[i] == value) {
-                warnState[i] = ok;
-            }
+            tally[list[i]] = tally[list[i]] || {count: 0, idx: []};
+            tally[list[i]].count++;
+            tally[list[i]].idx.push(i);
         }
-        this.setState({warnState: warnState});
+        return tally;
     },
 
-    clearWarn: function(i) {
-        var warnState = this.state.warnState;
-        warnState[i] = false;
-        this.setState({warnState: warnState});
-    }
 });
 
