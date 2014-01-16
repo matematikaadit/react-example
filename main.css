@@ -21,6 +21,7 @@ ul {
 li {
     line-height: 20px;
     margin-left: 20px;
+    margin-bottom: 3px;
 }
 
 input, textarea {
@@ -41,4 +42,11 @@ textarea {
 .main {
     max-width: 600px;
     margin: 0 auto;
+}
+
+hr {
+    height: 1px;
+    background-color: #ccc;
+    color: #ccc;
+    border: none;
 }

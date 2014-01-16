@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<title>Trash</title>
+<link rel="stylesheet" href="../main.css" />
+<script src="../build/react.min.js"></script>
+<style>
+.category span {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.category .del {
+    cursor: pointer;
+    float: right;
+}
+.category {
+    margin-bottom: 5px;
+    width: 250px;
+    border: 1px solid #ccc;
+    padding: 3px;
+}
+.eat {
+    max-width: 800px;
+    margin: 0 auto;
+}
+</style>
+<div class="eat">
+<h1>Trash App</h1>
+<hr />
+<div id="mountnode">ReactJS not Working</div>
+<script src="build/underscore.js"></script>
+<script src="build/trash.js"></script>
+<script>
+React.renderComponent(
+    TrashApp({ categories: [
+    {code: "A1", title: "Best Storyline & Plot"},
+    {code: "A2", title: "Best Visuals & Animation"},
+    {code: "B1", title: "Best Action-Adventure"},
+    {code: "B2", title: "Best Fantasy"},
+    {code: "B3", title: "Best Science Fiction"},
+    {code: "B4", title: "Best Mystery"},
+    {code: "B5", title: "Best Drama"},
+    {code: "B6", title: "Best Romance"},
+    {code: "B7", title: "Best Comedy"},
+    {code: "B8", title: "Best Slice of Life"},
+    {code: "C1", title: "Best TV Series"},
+    {code: "C2", title: "Best OVA"},
+    {code: "C3", title: "Best Movie"},
+    {code: "D1", title: "Best Female Lead"},
+    {code: "D2", title: "Best Male Lead"},
+    {code: "D3", title: "Best Antagonist"},
+    {code: "D4", title: "Best Side-Character"},
+    {code: "D5", title: "Best World Setting"},
+    {code: "D6", title: "Best Credits Theme"},
+    {code: "D7", title: "Best Soundtrack"},
+    {code: "D8", title: "Best Ongoing Series"},
+]}),
+    document.getElementById('mountnode')
+);
+</script>
+</div>
