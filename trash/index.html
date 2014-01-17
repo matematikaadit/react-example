@@ -2,13 +2,13 @@
 <meta charset="utf-8" />
 <title>Trash</title>
 <link rel="stylesheet" href="../main.css" />
-<script src="../build/react.min.js"></script>
+<script src="../build/react.js"></script>
 <style>
 .category span {
     margin-left: 5px;
     margin-right: 5px;
 }
-.category .del {
+.del, .res {
     cursor: pointer;
     float: right;
 }
@@ -19,8 +19,16 @@
     padding: 3px;
 }
 .eat {
-    max-width: 800px;
+    width: 800px;
     margin: 0 auto;
+}
+.categories {
+    width: 400px;
+    float: left;
+}
+.trashbin {
+    width: 400px;
+    float: right;
 }
 </style>
 <div class="eat">
