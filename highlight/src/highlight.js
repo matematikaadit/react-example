@@ -13,13 +13,28 @@ var HighlightApp = React.createClass({
 });
 
 var SeriesList = React.createClass({
+    getInitialState: function() {
+        return {selectedIdx: null};
+    },
+
     render: function() {
         var series = this.props.list;
         var serialNodes = _.map(series, function(serial, idx) {
+            var selected = false;
+            if (idx === this.state.selectedIdx) {
+                selected = true;
+            }
+
             return (
-                <Serial key={serial.id} serial={serial} />
+                <Serial
+                    key={serial.id}
+                    serial={serial}
+                    idx={idx}
+                    selected={selected}
+                    serialOnClick={this.handleSerialClick}
+                />
             );
-        });
+        }.bind(this));
 
         return (
             <div className="serieslist">
@@ -28,6 +43,14 @@ var SeriesList = React.createClass({
             </div>
         );
     },
+
+    handleSerialClick: function(idx) {
+        if (idx !== this.state.selectedIdx) {
+            this.setState({selectedIdx: idx});
+        } else {
+            this.setState({selectedIdx: null});
+        }
+    },
 });
 
 var CategoryList = React.createClass({
@@ -35,7 +58,11 @@ var CategoryList = React.createClass({
         var categories = this.props.list;
         var categoryNodes = _.map(categories, function(category, idx) {
             return (
-                <Category key={category.code} category={category} />
+                <Category
+                    key={category.code}
+                    category={category}
+                    idx={idx}
+                />
             );
         });
 
@@ -51,23 +78,52 @@ var CategoryList = React.createClass({
 var Category = React.createClass({
     render: function() {
         var category = this.props.category;
+        var cx = React.addons.classSet;
+        var classes = cx({
+            'category': true,
+            'highlighted': this.props.highlighted,
+            'selected': this.props.selected,
+        });
         return (
-            <div className="category">
+            <div className={classes} onClick={this.handleClick}>
                 <span className="code">{category.code}</span>
                 <span className="name">{category.name}</span>
             </div>
         );
-    }
+    },
+
+    handleClick: function() {
+        var catOnClick = this.props.catOnClick;
+        var idx = this.props.idx || 0;
+        if (catOnClick) {
+            catOnClick(idx);
+        }
+    },
 });
 
 var Serial = React.createClass({
     render: function() {
         var serial = this.props.serial;
+        var cx = React.addons.classSet;
+        var classes = cx({
+            'serial': true,
+            'highlighted': this.props.highlighted,
+            'selected': this.props.selected,
+        });
         return (
-            <div className="serial">
+            <div className={classes} onClick={this.handleClick}>
                 <span className="title">{serial.title}</span>
                 <span className="type">{"("+serial.type+")"}</span>
             </div>
         );
     },
+
+    handleClick: function() {
+        var serialOnClick = this.props.serialOnClick;
+        var idx = this.props.idx || 0;
+        if (serialOnClick) {
+            serialOnClick(idx);
+        }
+    },
 });
+
