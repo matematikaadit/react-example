@@ -1,14 +1,32 @@
 /** @jsx React.DOM */
 
 var HighlightApp = React.createClass({
+    getInitialState: function() {
+        return {hilist: []};
+    },
+
     render: function() {
         var data = this.props.data;
         return (
             <div className="highlightapp">
-                <SeriesList list={data.series} />
-                <CategoryList list={data.categories} />
+                <SeriesList list={data.series} serialSelect={this.serialSelect} />
+                <CategoryList list={data.categories} hilist={this.state.hilist} />
             </div>
         );
+    },
+
+    serialSelect: function(idx) {
+        var series = this.props.data.series;
+        var selectedSerialType = series[idx].type;
+        var categories = this.props.data.categories;
+        var hilist = [];
+        for (var i = 0; i < categories.length; i++) {
+            var category = categories[i];
+            if (_.contains(category.allowedTypes, selectedSerialType)) {
+                hilist.push(i);
+            }
+        }
+        this.setState({hilist: hilist});
     },
 });
 
@@ -50,17 +68,26 @@ var SeriesList = React.createClass({
         } else {
             this.setState({selectedIdx: null});
         }
+
+        var serialSelect = this.props.serialSelect;
+        if (serialSelect) {
+            serialSelect(idx);
+        }
     },
 });
 
 var CategoryList = React.createClass({
     render: function() {
         var categories = this.props.list;
+        var hilist = this.props.hilist;
         var categoryNodes = _.map(categories, function(category, idx) {
+            var highlighted = false;
+            if (_.contains(hilist, idx)) { highlighted = true; }
             return (
                 <Category
                     key={category.code}
                     category={category}
+                    highlighted={highlighted}
                     idx={idx}
                 />
             );
