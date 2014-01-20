@@ -4,15 +4,41 @@
 <link rel="stylesheet" href="../main.css" />
 <script src="../build/react.js"></script>
 <style>
-
+.main-extra-wide {
+    width: 1000px;
+    margin: 0 auto;
+}
+.serieslist {
+    width: 500px;
+    float: left;
+}
+.categorylist{
+    width: 500px;
+    float: right;
+}
+.category span, .serial span {
+    margin-right: 5px;
+}
+.category, .serial {
+    padding: 2px 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 3px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.highlighted {
+    background-color: #ccc;
+}
 </style>
-<div class="main">
+<div class="main-extra-wide">
 <h1>Highlight and Choose</h1>
 <div id="mountnode">ReactJs not working</div>
 <script src="build/highlight.js"></script>
+<script src="build/underscore.js"></script>
+<script src="data.js"></script>
 <script>
 React.renderComponent(
-    HighlightApp(null),
+    HighlightApp({data: data}),
     document.getElementById('mountnode')
 );
 </script>
