@@ -2,31 +2,72 @@
 
 var HighlightApp = React.createClass({displayName: 'HighlightApp',
     getInitialState: function() {
-        return {hilist: []};
+        var data = this.props.data;
+        var categories = data.categories;
+        return {hilist: [], categories: categories};
     },
 
     render: function() {
         var data = this.props.data;
+        var categories = this.state.categories;
         return (
             React.DOM.div( {className:"highlightapp"}, 
-                SeriesList( {list:data.series, serialSelect:this.serialSelect} ),
-                CategoryList( {list:data.categories, hilist:this.state.hilist} )
+                SeriesList(
+                    {list:data.series,
+                    serialSelect:this.serialSelect,
+                    ref:"seriesList"}
+                ),
+                CategoryList(
+                    {list:categories,
+                    hilist:this.state.hilist,
+                    catOnClick:this.catSelect}
+                )
             )
         );
     },
 
     serialSelect: function(idx) {
-        var series = this.props.data.series;
-        var selectedSerialType = series[idx].type;
-        var categories = this.props.data.categories;
         var hilist = [];
+        if (idx === -1) {
+            this.setState({hilist: hilist});
+            return;
+        }
+
+        var series = this.props.data.series;
+        var selectedSerial = series[idx];
+        var categories = this.props.data.categories;
         for (var i = 0; i < categories.length; i++) {
             var category = categories[i];
-            if (_.contains(category.allowedTypes, selectedSerialType)) {
+            var serials = (category.serials || [])
+            var isTypeMatch = _.contains(category.allowedTypes, selectedSerial.type);
+            var isNotContain = !(_.contains(serials, selectedSerial));
+            var isLimitSerials = (serials.length < 3)
+            if (isTypeMatch && isNotContain && isLimitSerials) {
                 hilist.push(i);
             }
         }
         this.setState({hilist: hilist});
+    },
+
+    catSelect: function(idx) {
+        var hilist = this.state.hilist;
+        var newHilist = _.filter(hilist, function(hidx) {
+            return hidx !== idx;
+        });
+
+        var categories = this.state.categories;
+        var updatedCategory = categories[idx];
+        if (!updatedCategory.serials) {
+            updatedCategory.serials = [];
+        }
+
+        var sidx = this.refs.seriesList.state.selectedIdx;
+        var selectedSerial = this.props.data.series[sidx];
+        updatedCategory.serials.push(selectedSerial);
+
+        categories[idx] = updatedCategory;
+
+        this.setState({categories: categories, hilist: newHilist});
     },
 });
 
@@ -63,15 +104,17 @@ var SeriesList = React.createClass({displayName: 'SeriesList',
     },
 
     handleSerialClick: function(idx) {
+        var serialSelect = this.props.serialSelect;
         if (idx !== this.state.selectedIdx) {
             this.setState({selectedIdx: idx});
+            if (serialSelect) {
+                serialSelect(idx);
+            }
         } else {
             this.setState({selectedIdx: null});
-        }
-
-        var serialSelect = this.props.serialSelect;
-        if (serialSelect) {
-            serialSelect(idx);
+            if (serialSelect) {
+                serialSelect(-1);
+            }
         }
     },
 });
@@ -84,19 +127,45 @@ var CategoryList = React.createClass({displayName: 'CategoryList',
             var highlighted = false;
             if (_.contains(hilist, idx)) { highlighted = true; }
             return (
-                Category(
+                CategoryBox(
                     {key:category.code,
                     category:category,
                     highlighted:highlighted,
+                    catOnClick:this.props.catOnClick,
                     idx:idx}
                 )
             );
-        });
+        }.bind(this));
 
         return (
             React.DOM.div( {className:"categorylist"}, 
                 React.DOM.h3(null, "Voting Category"),
                 categoryNodes
+            )
+        );
+    },
+});
+
+var CategoryBox = React.createClass({displayName: 'CategoryBox',
+    /* Category + Votes */
+    render: function() {
+        var serials = this.props.category.serials;
+        var serialNodes = null;
+        if (serials) {
+            serialNodes = _.map(serials, function(serial, idx) {
+                return (
+                    Serial(
+                        {key:serial.id,
+                        serial:serial,
+                        idx:idx}
+                    )
+                );
+            });
+        }
+        return (
+            React.DOM.div( {className:"categorybox"}, 
+                Category(this.props),
+                serialNodes
             )
         );
     },
@@ -122,7 +191,7 @@ var Category = React.createClass({displayName: 'Category',
     handleClick: function() {
         var catOnClick = this.props.catOnClick;
         var idx = this.props.idx || 0;
-        if (catOnClick) {
+        if (catOnClick && this.props.highlighted) {
             catOnClick(idx);
         }
     },
