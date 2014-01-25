@@ -1,16 +1,32 @@
 <!DOCTYPE html>
 <meta charset="utf-8" />
-<title>Sortable</title>
+<title>Reorderable</title>
 <link rel="stylesheet" href="../main.css" />
 <script src="../build/react.js"></script>
-<style></style>
+<style>
+.Series span {
+    margin-right: 5px;
+}
+.Series {
+    width: -moz-fit-content;
+    width: -webkit-fit-content;
+    padding: 3px;
+    border: 1px solid #ccc;
+    margin-bottom: 5px;
+}
+.Series .up, .Series .down {
+    float: right;
+    cursor: pointer;
+}
+</style>
 <div class="main">
-<h1>Sortable</h1>
+<h1>Reorderable</h1>
 <div id="mountnode">ReactJs not working</div>
 <script src="build/sortable.js"></script>
+<script src="data.js"></script>
 <script>
 React.renderComponent(
-    SortableApp(null),
+    SortableApp({ series: data.series }),
     document.getElementById('mountnode')
 );
 </script>
