@@ -9,3 +9,22 @@ var BulkDeleteApp = React.createClass({displayName: 'BulkDeleteApp',
     },
 });
 
+var SeriesList = React.createClass({displayName: 'SeriesList',
+    render: function() {
+        return (
+            React.DOM.div( {className:"SeriesList"}
+            )
+        );
+    },
+});
+
+var Series = React.createClass({displayName: 'Series',
+    render: function() {
+        return (
+            React.DOM.div( {className:"Series"}
+            )
+        );
+    },
+});
+
+
